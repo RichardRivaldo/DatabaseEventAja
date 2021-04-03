@@ -1,0 +1,29 @@
+Pembeli: Info apa saja yang harus dicatat mengenai pembeli?
+Konser: Bagaimana yang dimaksud dengan bisa termasuk dari tour?
+Merchandise: Official atau Unofficial ada atribut yang perlu dicatat untuk membedakannya?
+Artis: Info yang harus dicatat?
+Album: Setiap album bisa dimiliki oleh 2 artis atau tidak? Apa saja yang harus dicatat di dalam album tersebut?
+Pembayaran: Bagaimana sistem pembayaran yang dimaksud? Termasuk ke dalam sistem?
+Deskripsi Sistem: Bisa menyalin deskripsi sistem dari tugas?
+
+Deskripsi sistem bisa disalin aja
+Tiketnya ada kategori, nyambungnya sama konser bukan sama tour
+id pesanan, id pembeli, total harga, konser yang mana
+Bisa beli banyak kategori tiket, jumlah tiket yang dibeli bebas ditaruh atau ga
+Merch -> IdMerchandise, Nama barang, jenis, harga, Official ada kode official, Unofficial ada supplier
+Album -> Satu artis saja
+Pembayaran -> gausah dibreakdown, cuma catet metodenya aja
+Tour -> Kapan mulai, kapan selesai, nama tour. Tour terdiri dari banyak konser
+Artis -> Nama, genre (atau gender(?)) apa, asal negara
+Pembeli -> Nama {Nama depan nama belakang}, Tanggal Lahir, Umur hasil dari tanggal lahir
+Lokasi Konser -> nama (stadium atau lapangan apa), kapasitas orang, jenis (indoor/outdoor, gausah dijabarin), 
+alamat gausah dibreakdown
+pembelian merchandise -> bareng sama tiket, pembelinya siapa, konser yang mana, total harga
+Konser -> Spesifik tanggal berapa, nama konser, artis siapa, bawain album apa cuma bisa satu album, lokasi
+Album -> nama album, artis, tahun keluaran, jumlah lagunya, nama albumnya unik
+Lagu -> Nama lagu, No track sama durasi, no track sama, cuma urutan di dalam albumnya gimana, jadi 
+bisa sama kalo beda album, gausah catet nama albumnya apa
+Di konser bisa nambahin berapa tiket yang dijual, tapi ga wajib
+Di relasi bisa diasumsiin udah ngecek batas umurnya
+Batas umur bisa diasumsiin general atau umum buat semua konser, tinggal dicantumin di laporan
+Entitynya lebih fokus ke user bukan pembeli, jadi bisa aja ga cukup umur jadi ga beli
