@@ -1,0 +1,30 @@
+create table if not exists Tour(
+tour_name varchar(100) primary key,
+start_date date not null,
+finish_date date not null
+check(finish_date > start_date)
+);
+
+insert into tour
+values("Lilacs", '2021-03-13', '2021-03-17'),
+("Tulips", '2021-07-02', '2021-07-10'),
+("Basis", '2021-05-16', '2021-05-17'),
+("Roses", '2021-01-01', '2021-02-01'),
+("Violets", '2020-09-22', '2021-02-14');
+
+create table if not exists Location(
+loc_ID int auto_increment primary key,
+loc_name varchar(100) not null,
+address varchar(100) not null,
+capacity int not null check(capacity >= 1),
+type varchar(100) not null
+);
+
+insert into location(loc_name, address, capacity, type)
+values("Aula Barat ITB", "Jalan Ganesha ITB", 300, "Aula"),
+("Lapangan Basket", "Jalan Ganesha ITB", 350, "Lapangan"),
+("West Avenue", "Wall Street Manhattan", 175, "Avenue"),
+("Red Rocks", "Alameda Street Morison", 1202, "Amphiteatre"),
+("Amphiteatre ITB", "Jalan Ganesha ITB", 200, "Amphiteatre");
+
+mysqldump -c -u root -p --databases eventaja > EventAja.sql
