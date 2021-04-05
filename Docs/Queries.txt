@@ -27,4 +27,33 @@ values("Aula Barat ITB", "Jalan Ganesha ITB", 300, "Aula"),
 ("Red Rocks", "Alameda Street Morison", 1202, "Amphiteatre"),
 ("Amphiteatre ITB", "Jalan Ganesha ITB", 200, "Amphiteatre");
 
+create table if not exists Artist(
+artist_ID int auto_increment primary key,
+artist_name varchar(100) not null,
+gender varchar(20) not null,
+country varchar(100) not null,
+genre varchar(100) not null
+);
+
+insert into Artist(artist_name, gender, country, genre)
+values("Alan", "Male", "Kanada", "Electronic"),
+("Efendi", "Male", "Indonesia", "Rock"),
+("Jeremy", "Male", "England", "Jazz"),
+("Niki", "Female", "Indonesia", "R&B"),
+("Isyana", "Female", "Indonesia", "Pop");
+
+create table if not exists User(
+user_ID int auto_increment primary key,
+first_name varchar(100) not null,
+last_name varchar(100) not null,
+birth_date date not null
+);
+
+insert into User(first_name, last_name, birth_date)
+values("Fabi", "Anandi", '2001-01-22'),
+("Eja", "Morteza", '2000-11-09'),
+("Nadim", "Amizah", '2005-06-29'),
+("Kiya", "Utama", '2001-09-10'),
+("Rafli", "Ananda", '2002-05-12');
+
 mysqldump -c -u root -p --databases eventaja > EventAja.sql

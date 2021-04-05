@@ -24,6 +24,33 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER S
 USE `eventaja`;
 
 --
+-- Table structure for table `artist`
+--
+
+DROP TABLE IF EXISTS `artist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `artist` (
+  `artist_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `artist_name` varchar(100) NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `country` varchar(100) NOT NULL,
+  `genre` varchar(100) NOT NULL,
+  PRIMARY KEY (`artist_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `artist`
+--
+
+LOCK TABLES `artist` WRITE;
+/*!40000 ALTER TABLE `artist` DISABLE KEYS */;
+INSERT INTO `artist` (`artist_ID`, `artist_name`, `gender`, `country`, `genre`) VALUES (1,'Alan','Male','Kanada','Electronic'),(2,'Efendi','Male','Indonesia','Rock'),(3,'Jeremy','Male','England','Jazz'),(4,'Niki','Female','Indonesia','R&B'),(5,'Isyana','Female','Indonesia','Pop');
+/*!40000 ALTER TABLE `artist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `location`
 --
 
@@ -74,6 +101,32 @@ LOCK TABLES `tour` WRITE;
 INSERT INTO `tour` (`tour_name`, `start_date`, `finish_date`) VALUES ('Basis','2021-05-16','2021-05-17'),('Lilacs','2021-03-13','2021-03-17'),('Roses','2021-01-01','2021-02-01'),('Tulips','2021-07-02','2021-07-10'),('Violets','2020-09-22','2021-02-14');
 /*!40000 ALTER TABLE `tour` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `birth_date` date NOT NULL,
+  PRIMARY KEY (`user_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`) VALUES (1,'Fabi','Anandi','2001-01-22'),(2,'Eja','Morteza','2000-11-09'),(3,'Nadim','Amizah','2005-06-29'),(4,'Kiya','Utama','2001-09-10'),(5,'Rafli','Ananda','2002-05-12');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -84,4 +137,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-03 17:29:57
+-- Dump completed on 2021-04-05 21:20:34
