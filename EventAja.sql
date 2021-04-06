@@ -24,6 +24,34 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER S
 USE `eventaja`;
 
 --
+-- Table structure for table `album`
+--
+
+DROP TABLE IF EXISTS `album`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `album` (
+  `album_name` varchar(100) NOT NULL,
+  `artist_id` int(11) NOT NULL,
+  `song_amount` int(11) NOT NULL DEFAULT 0,
+  `released_year` year(4) NOT NULL,
+  PRIMARY KEY (`album_name`,`artist_id`),
+  KEY `FK_Artist` (`artist_id`),
+  CONSTRAINT `FK_Artist` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `album`
+--
+
+LOCK TABLES `album` WRITE;
+/*!40000 ALTER TABLE `album` DISABLE KEYS */;
+INSERT INTO `album` (`album_name`, `artist_id`, `song_amount`, `released_year`) VALUES ('Basdat Serenade',2,1,2018),('Cry of Database',3,1,2015),('Databases of Despairs',1,1,2013),('Living in The Database',5,2,2021),('Love of Basdat',5,1,2020);
+/*!40000 ALTER TABLE `album` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `artist`
 --
 
@@ -76,6 +104,54 @@ LOCK TABLES `location` WRITE;
 INSERT INTO `location` (`loc_ID`, `loc_name`, `address`, `capacity`, `type`) VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `song`
+--
+
+DROP TABLE IF EXISTS `song`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `song` (
+  `song_name` varchar(100) NOT NULL,
+  `album_name` varchar(100) NOT NULL,
+  `no_track` int(11) NOT NULL DEFAULT 1,
+  `duration` int(11) NOT NULL,
+  PRIMARY KEY (`song_name`,`album_name`),
+  KEY `FK_Album` (`album_name`),
+  CONSTRAINT `FK_Album` FOREIGN KEY (`album_name`) REFERENCES `album` (`album_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `song`
+--
+
+LOCK TABLES `song` WRITE;
+/*!40000 ALTER TABLE `song` DISABLE KEYS */;
+INSERT INTO `song` (`song_name`, `album_name`, `no_track`, `duration`) VALUES ('Crying with Basdat','Basdat Serenade',1,230),('DATABASE DATABASE!','Living in The Database',1,237),('I Love Basdat','Love of Basdat',1,212),('JUST LIVING IN THE DATABASE!','Living in The Database',2,246),('Lullaby of Database','Cry of Database',1,224),('The Reason of Database','Databases of Despairs',1,286);
+/*!40000 ALTER TABLE `song` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger `increaseCount` after insert on `song`
+for each row
+update album 
+set album.song_amount = (select song_amount from album where 
+new.album_name = album.album_name) + 1
+where new.album_name = album.album_name */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `tour`
@@ -137,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-05 21:20:34
+-- Dump completed on 2021-04-07  1:03:26

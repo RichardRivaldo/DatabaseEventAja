@@ -56,4 +56,50 @@ values("Fabi", "Anandi", '2001-01-22'),
 ("Kiya", "Utama", '2001-09-10'),
 ("Rafli", "Ananda", '2002-05-12');
 
+create table if not exists Album(
+album_name varchar(100),
+artist_id int,
+song_amount int not null default(0),
+released_year year not null,
+primary key(album_name, artist_id),
+constraint FK_Artist foreign key(artist_id)
+references artist(artist_id)
+on delete cascade
+on update cascade
+);
+
+insert into album(album_name, artist_id, released_year)
+values("Love of Basdat", 5, '2020'),
+("Basdat Serenade", 2, '2018'), 
+("Cry of Database", 3, '2015'),
+("Databases of Despairs", 1, '2013'),
+("Living in The Database", 5, '2021');
+
+create table if not exists Song(
+song_name varchar(100),
+album_name varchar(100),
+no_track int not null default(1),
+duration int not null,
+primary key(song_name, album_name),
+constraint FK_Album foreign key(album_name)
+references album(album_name)
+on delete cascade
+on update cascade
+);
+
+create trigger `increaseCount` after insert on `song`
+for each row
+update album 
+set album.song_amount = (select song_amount from album where 
+new.album_name = album.album_name) + 1
+where new.album_name = album.album_name;
+
+insert into song(song_name, album_name, no_track, duration)
+values("I Love Basdat", "Love of Basdat", 1, 212),
+("Crying with Basdat", "Basdat Serenade", 1, 230), 
+("Lullaby of Database", "Cry of Database", 1, 224),
+("The Reason of Database", "Databases of Despairs", 1, 286),
+("DATABASE DATABASE!", "Living in The Database", 1, 237),
+("JUST LIVING IN THE DATABASE!", "Living in The Database", 2, 246);
+
 mysqldump -c -u root -p --databases eventaja > EventAja.sql
