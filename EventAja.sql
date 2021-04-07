@@ -295,6 +295,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
+INSERT INTO `ticket` (`ticket_ID`,`concert_ID`, `type`, `price`) VALUES (1, 1, 'Silver', 100000), (2, 2, 'Silver', 100000), (3, 3, 'Gold', 200000), (4, 4, 'Premium', 300000), (5, 5, 'Gold', 200000);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
