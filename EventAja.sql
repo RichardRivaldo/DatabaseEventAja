@@ -111,6 +111,7 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
+INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1, 'Basis', 1,'Basdat Serenade', 1, 'Basisten', 2021-05-16), (2,'Lilacs', 2, 'Cry of Database', 2, 'Lilacsin', 2021-03-14), (3,'Roses', 3, 'Databases of Despairs', 3, 'Databases My Fav', 2021-01-21), (4,'Tulips', 4, 'Living in The Database', 4, 'Livingers', 2021-07-03), (5,'Violets', 5, 'Love of Basdat', 5, 'My Love', 2021-01-14);
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
 
