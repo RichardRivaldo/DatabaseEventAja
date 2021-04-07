@@ -1,8 +1,8 @@
--- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for osx10.15 (x86_64)
 --
--- Host: localhost    Database: eventaja
+-- Host: localhost    Database: EventAja
 -- ------------------------------------------------------
--- Server version	10.5.8-MariaDB
+-- Server version	10.5.9-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `eventaja`
+-- Current Database: `EventAja`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `EventAja` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `eventaja`;
+USE `EventAja`;
 
 --
 -- Table structure for table `album`
@@ -35,7 +35,7 @@ CREATE TABLE `album` (
   `artist_id` int(11) NOT NULL,
   `song_amount` int(11) NOT NULL DEFAULT 0,
   `released_year` year(4) NOT NULL,
-  PRIMARY KEY (`album_name`,`artist_id`),
+  PRIMARY KEY (`album_name`),
   KEY `FK_Artist` (`artist_id`),
   CONSTRAINT `FK_Artist` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -47,7 +47,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` (`album_name`, `artist_id`, `song_amount`, `released_year`) VALUES ('Basdat Serenade',2,1,2018),('Cry of Database',3,1,2015),('Databases of Despairs',1,1,2013),('Living in The Database',5,2,2021),('Love of Basdat',5,1,2020);
+INSERT INTO `album` VALUES ('Basdat Serenade',2,1,2018),('Cry of Database',3,1,2015),('Databases of Despairs',1,1,2013),('Living in The Database',5,2,2021),('Love of Basdat',5,1,2020);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +74,7 @@ CREATE TABLE `artist` (
 
 LOCK TABLES `artist` WRITE;
 /*!40000 ALTER TABLE `artist` DISABLE KEYS */;
-INSERT INTO `artist` (`artist_ID`, `artist_name`, `gender`, `country`, `genre`) VALUES (1,'Alan','Male','Kanada','Electronic'),(2,'Efendi','Male','Indonesia','Rock'),(3,'Jeremy','Male','England','Jazz'),(4,'Niki','Female','Indonesia','R&B'),(5,'Isyana','Female','Indonesia','Pop');
+INSERT INTO `artist` VALUES (1,'Alan','Male','Kanada','Electronic'),(2,'Efendi','Male','Indonesia','Rock'),(3,'Jeremy','Male','England','Jazz'),(4,'Niki','Female','Indonesia','R&B'),(5,'Isyana','Female','Indonesia','Pop');
 /*!40000 ALTER TABLE `artist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `concert` (
   `artist_ID` int(11) NOT NULL,
   `concert_name` varchar(100) NOT NULL,
   `date` date NOT NULL,
-  PRIMARY KEY (`concert_id`,`tour_name`,`loc_ID`,`album_name`,`artist_ID`),
+  PRIMARY KEY (`concert_id`),
   KEY `FK_TourC` (`tour_name`),
   KEY `FK_LocC` (`loc_ID`),
   KEY `FK_AlbumC` (`album_name`),
@@ -102,7 +102,7 @@ CREATE TABLE `concert` (
   CONSTRAINT `FK_ArtistC` FOREIGN KEY (`artist_ID`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_LocC` FOREIGN KEY (`loc_ID`) REFERENCES `location` (`loc_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TourC` FOREIGN KEY (`tour_name`) REFERENCES `tour` (`tour_name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +138,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` (`loc_ID`, `loc_name`, `address`, `capacity`, `type`) VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
+INSERT INTO `location` VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `merchandise` (
   `merch_name` varchar(100) NOT NULL,
   `type` varchar(100) NOT NULL,
   `price` int(11) NOT NULL,
-  PRIMARY KEY (`merch_ID`,`concert_ID`),
+  PRIMARY KEY (`merch_ID`),
   KEY `FK_concertIDmerch` (`concert_ID`),
   CONSTRAINT `FK_concertIDmerch` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -171,6 +171,30 @@ LOCK TABLES `merchandise` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `official`
+--
+
+DROP TABLE IF EXISTS `official`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `official` (
+  `merch_id` int(11) NOT NULL,
+  `kode_official` varchar(20) NOT NULL,
+  PRIMARY KEY (`merch_id`),
+  CONSTRAINT `FK_merchIDO` FOREIGN KEY (`merch_id`) REFERENCES `Merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `official`
+--
+
+LOCK TABLES `official` WRITE;
+/*!40000 ALTER TABLE `official` DISABLE KEYS */;
+/*!40000 ALTER TABLE `official` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order`
 --
 
@@ -182,7 +206,7 @@ CREATE TABLE `order` (
   `user_ID` int(11) NOT NULL,
   `total_price` int(11) NOT NULL,
   `pay_method` varchar(30) NOT NULL,
-  PRIMARY KEY (`order_ID`,`user_ID`),
+  PRIMARY KEY (`order_ID`),
   KEY `FK_User` (`user_ID`),
   CONSTRAINT `FK_User` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -248,7 +272,7 @@ CREATE TABLE `song` (
 
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` (`song_name`, `album_name`, `no_track`, `duration`) VALUES ('Crying with Basdat','Basdat Serenade',1,230),('DATABASE DATABASE!','Living in The Database',1,237),('I Love Basdat','Love of Basdat',1,212),('JUST LIVING IN THE DATABASE!','Living in The Database',2,246),('Lullaby of Database','Cry of Database',1,224),('The Reason of Database','Databases of Despairs',1,286);
+INSERT INTO `song` VALUES ('Crying with Basdat','Basdat Serenade',1,230),('DATABASE DATABASE!','Living in The Database',1,237),('I Love Basdat','Love of Basdat',1,212),('JUST LIVING IN THE DATABASE!','Living in The Database',2,246),('Lullaby of Database','Cry of Database',1,224),('The Reason of Database','Databases of Despairs',1,286);
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -284,7 +308,7 @@ CREATE TABLE `ticket` (
   `concert_ID` int(11) NOT NULL,
   `type` varchar(100) NOT NULL DEFAULT 'Regular',
   `price` int(11) NOT NULL,
-  PRIMARY KEY (`ticket_ID`,`concert_ID`),
+  PRIMARY KEY (`ticket_ID`),
   KEY `FK_concertID` (`concert_ID`),
   CONSTRAINT `FK_concertID` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -321,8 +345,32 @@ CREATE TABLE `tour` (
 
 LOCK TABLES `tour` WRITE;
 /*!40000 ALTER TABLE `tour` DISABLE KEYS */;
-INSERT INTO `tour` (`tour_name`, `start_date`, `finish_date`) VALUES ('Basis','2021-05-16','2021-05-17'),('Lilacs','2021-03-13','2021-03-17'),('Roses','2021-01-01','2021-02-01'),('Tulips','2021-07-02','2021-07-10'),('Violets','2020-09-22','2021-02-14');
+INSERT INTO `tour` VALUES ('Basis','2021-05-16','2021-05-17'),('Lilacs','2021-03-13','2021-03-17'),('Roses','2021-01-01','2021-02-01'),('Tulips','2021-07-02','2021-07-10'),('Violets','2020-09-22','2021-02-14');
 /*!40000 ALTER TABLE `tour` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `unofficial`
+--
+
+DROP TABLE IF EXISTS `unofficial`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `unofficial` (
+  `merch_id` int(11) NOT NULL,
+  `supplier` varchar(20) NOT NULL,
+  PRIMARY KEY (`merch_id`),
+  CONSTRAINT `FK_merchIDU` FOREIGN KEY (`merch_id`) REFERENCES `Merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `unofficial`
+--
+
+LOCK TABLES `unofficial` WRITE;
+/*!40000 ALTER TABLE `unofficial` DISABLE KEYS */;
+/*!40000 ALTER TABLE `unofficial` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -347,7 +395,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`) VALUES (1,'Fabi','Anandi','2001-01-22'),(2,'Eja','Morteza','2000-11-09'),(3,'Nadim','Amizah','2005-06-29'),(4,'Kiya','Utama','2001-09-10'),(5,'Rafli','Ananda','2002-05-12');
+INSERT INTO `user` VALUES (1,'Fabi','Anandi','2001-01-22'),(2,'Eja','Morteza','2000-11-09'),(3,'Nadim','Amizah','2005-06-29'),(4,'Kiya','Utama','2001-09-10'),(5,'Rafli','Ananda','2002-05-12');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -360,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 20:09:48
+-- Dump completed on 2021-04-08  0:53:32
