@@ -153,4 +153,15 @@ constraint FK_orderID foreign key(order_ID)
 references `order`(order_ID) on update cascade on delete cascade
 );
 
+create table if not exists Merchandise(
+merch_ID int auto_increment,
+concert_ID int,
+merch_name varchar(100) not null,
+type varchar(100) not null,
+price int not null,
+primary key(merch_ID, concert_ID),
+constraint FK_concertIDmerch foreign key (concert_ID)
+references Concert(concert_ID) on update cascade on delete cascade
+);
+
 mysqldump -c -u root -p --databases eventaja > EventAja.sql

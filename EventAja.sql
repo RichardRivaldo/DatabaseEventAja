@@ -142,6 +142,34 @@ INSERT INTO `location` (`loc_ID`, `loc_name`, `address`, `capacity`, `type`) VAL
 UNLOCK TABLES;
 
 --
+-- Table structure for table `merchandise`
+--
+
+DROP TABLE IF EXISTS `merchandise`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `merchandise` (
+  `merch_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `concert_ID` int(11) NOT NULL,
+  `merch_name` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `price` int(11) NOT NULL,
+  PRIMARY KEY (`merch_ID`,`concert_ID`),
+  KEY `FK_concertIDmerch` (`concert_ID`),
+  CONSTRAINT `FK_concertIDmerch` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `merchandise`
+--
+
+LOCK TABLES `merchandise` WRITE;
+/*!40000 ALTER TABLE `merchandise` DISABLE KEYS */;
+/*!40000 ALTER TABLE `merchandise` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order`
 --
 
@@ -329,4 +357,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07 18:53:01
+-- Dump completed on 2021-04-07 20:09:48
