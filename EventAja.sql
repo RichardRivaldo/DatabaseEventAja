@@ -111,7 +111,7 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
-INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1, 'Basis', 1,'Basdat Serenade', 1, 'Basisten', '2021-03-17'), (2,'Lilacs', 2, 'Cry of Database', 2, 'Lilacsin', '2021-05-17'), (3,'Roses', 3, 'Databases of Despairs', 3, 'Databases My Fav', '2021-02-01'), (4,'Tulips', 4, 'Living in The Database', 4, 'Livingers', '2021-07-10'), (5,'Violets', 5, 'Love of Basdat', 5, 'My Love', '2021-02-14');
+INSERT INTO `concert` VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-05-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14');
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +158,7 @@ CREATE TABLE `merchandise` (
   PRIMARY KEY (`merch_ID`),
   KEY `FK_concertIDmerch` (`concert_ID`),
   CONSTRAINT `FK_concertIDmerch` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,6 +167,7 @@ CREATE TABLE `merchandise` (
 
 LOCK TABLES `merchandise` WRITE;
 /*!40000 ALTER TABLE `merchandise` DISABLE KEYS */;
+INSERT INTO `merchandise` VALUES (1,1,'Stickers','unofficial',10000),(2,1,'Patches','official',450000),(3,2,'Guitar picks','official',25000),(4,3,'Keychains','official',35000),(5,4,'Tote Bags','unofficial',55000),(6,5,'Patches','unofficial',225000),(7,2,'Beanies Hat','official',150000),(8,3,'Guitar picks','unofficial',20000),(9,4,'Posters','official',35000),(10,5,'Posters','official',55000),(11,5,'Tote Bags','unofficial',45000);
 /*!40000 ALTER TABLE `merchandise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,6 +192,7 @@ CREATE TABLE `official` (
 
 LOCK TABLES `official` WRITE;
 /*!40000 ALTER TABLE `official` DISABLE KEYS */;
+INSERT INTO `official` VALUES (2,'A01'),(3,'B01'),(4,'C01'),(7,'B02'),(9,'D01'),(10,'E01');
 /*!40000 ALTER TABLE `official` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +246,7 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
-INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5);
+INSERT INTO `purchase` VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +313,7 @@ CREATE TABLE `ticket` (
   PRIMARY KEY (`ticket_ID`),
   KEY `FK_concertID` (`concert_ID`),
   CONSTRAINT `FK_concertID` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +322,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` (`ticket_ID`,`concert_ID`, `type`, `price`) VALUES (1, 1, 'Silver', 100000), (2, 2, 'Silver', 100000), (3, 3, 'Gold', 200000), (4, 4, 'Premium', 300000), (5, 5, 'Gold', 200000);
+INSERT INTO `ticket` VALUES (1,1,'Silver',100000),(2,2,'Silver',100000),(3,3,'Gold',200000),(4,4,'Premium',300000),(5,5,'Gold',200000);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,6 +372,7 @@ CREATE TABLE `unofficial` (
 
 LOCK TABLES `unofficial` WRITE;
 /*!40000 ALTER TABLE `unofficial` DISABLE KEYS */;
+INSERT INTO `unofficial` VALUES (1,'Hanata'),(5,'TotalGifts'),(6,'Oblivion Merch'),(8,'Hanata'),(11,'Xtreme Merch');
 /*!40000 ALTER TABLE `unofficial` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-08  0:53:32
+-- Dump completed on 2021-04-08  1:59:50
