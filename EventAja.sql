@@ -111,7 +111,7 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
-INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1, 'Basis', 1,'Basdat Serenade', 1, 'Basisten', str_to_date('2021-03-17','%Y-%m-%d')), (2,'Lilacs', 2, 'Cry of Database', 2, 'Lilacsin', str_to_date('2021-05-17','%Y-%m-%d')), (3,'Roses', 3, 'Databases of Despairs', 3, 'Databases My Fav', str_to_date('2021-02-01','%Y-%m-%d')), (4,'Tulips', 4, 'Living in The Database', 4, 'Livingers', str_to_date('2021-07-10','%Y-%m-%d')), (5,'Violets', 5, 'Love of Basdat', 5, 'My Love', str_to_date('2021-02-14','%Y-%m-%d'));
+INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1, 'Basis', 1,'Basdat Serenade', 1, 'Basisten', '2021-03-17'), (2,'Lilacs', 2, 'Cry of Database', 2, 'Lilacsin', '2021-05-17'), (3,'Roses', 3, 'Databases of Despairs', 3, 'Databases My Fav', '2021-02-01'), (4,'Tulips', 4, 'Living in The Database', 4, 'Livingers', '2021-07-10'), (5,'Violets', 5, 'Love of Basdat', 5, 'My Love', '2021-02-14');
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,6 +220,7 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
+INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1, 1), (2, 2), (3, 3), (4, 4), (5, 5);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
