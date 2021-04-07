@@ -79,6 +79,42 @@ INSERT INTO `artist` (`artist_ID`, `artist_name`, `gender`, `country`, `genre`) 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `concert`
+--
+
+DROP TABLE IF EXISTS `concert`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `concert` (
+  `concert_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tour_name` varchar(100) NOT NULL,
+  `loc_ID` int(11) NOT NULL,
+  `album_name` varchar(100) NOT NULL,
+  `artist_ID` int(11) NOT NULL,
+  `concert_name` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`concert_id`,`tour_name`,`loc_ID`,`album_name`,`artist_ID`),
+  KEY `FK_TourC` (`tour_name`),
+  KEY `FK_LocC` (`loc_ID`),
+  KEY `FK_AlbumC` (`album_name`),
+  KEY `FK_ArtistC` (`artist_ID`),
+  CONSTRAINT `FK_AlbumC` FOREIGN KEY (`album_name`) REFERENCES `album` (`album_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ArtistC` FOREIGN KEY (`artist_ID`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_LocC` FOREIGN KEY (`loc_ID`) REFERENCES `location` (`loc_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_TourC` FOREIGN KEY (`tour_name`) REFERENCES `tour` (`tour_name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `concert`
+--
+
+LOCK TABLES `concert` WRITE;
+/*!40000 ALTER TABLE `concert` DISABLE KEYS */;
+/*!40000 ALTER TABLE `concert` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `location`
 --
 
@@ -103,6 +139,59 @@ LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 INSERT INTO `location` (`loc_ID`, `loc_name`, `address`, `capacity`, `type`) VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order`
+--
+
+DROP TABLE IF EXISTS `order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order` (
+  `order_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `user_ID` int(11) NOT NULL,
+  `total_price` int(11) NOT NULL,
+  `pay_method` varchar(30) NOT NULL,
+  PRIMARY KEY (`order_ID`,`user_ID`),
+  KEY `FK_User` (`user_ID`),
+  CONSTRAINT `FK_User` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order`
+--
+
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase`
+--
+
+DROP TABLE IF EXISTS `purchase`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `purchase` (
+  `order_ID` int(11) NOT NULL,
+  `ticket_ID` int(11) NOT NULL,
+  PRIMARY KEY (`order_ID`,`ticket_ID`),
+  KEY `FK_ticketID` (`ticket_ID`),
+  CONSTRAINT `FK_orderID` FOREIGN KEY (`order_ID`) REFERENCES `order` (`order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ticketID` FOREIGN KEY (`ticket_ID`) REFERENCES `ticket` (`ticket_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase`
+--
+
+LOCK TABLES `purchase` WRITE;
+/*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -141,7 +230,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger `increaseCount` after insert on `song`
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger increaseCount after insert on song
 for each row
 update album 
 set album.song_amount = (select song_amount from album where 
@@ -152,6 +241,33 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `ticket`
+--
+
+DROP TABLE IF EXISTS `ticket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticket` (
+  `ticket_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `concert_ID` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL DEFAULT 'Regular',
+  `price` int(11) NOT NULL,
+  PRIMARY KEY (`ticket_ID`,`concert_ID`),
+  KEY `FK_concertID` (`concert_ID`),
+  CONSTRAINT `FK_concertID` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket`
+--
+
+LOCK TABLES `ticket` WRITE;
+/*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tour`
@@ -213,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-07  1:03:26
+-- Dump completed on 2021-04-07 18:53:01

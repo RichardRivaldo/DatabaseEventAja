@@ -87,7 +87,7 @@ on delete cascade
 on update cascade
 );
 
-create trigger `increaseCount` after insert on `song`
+create trigger increaseCount after insert on song
 for each row
 update album 
 set album.song_amount = (select song_amount from album where 
@@ -101,5 +101,56 @@ values("I Love Basdat", "Love of Basdat", 1, 212),
 ("The Reason of Database", "Databases of Despairs", 1, 286),
 ("DATABASE DATABASE!", "Living in The Database", 1, 237),
 ("JUST LIVING IN THE DATABASE!", "Living in The Database", 2, 246);
+
+create table if not exists `order`(order_ID int auto_increment,
+user_ID int,
+total_price int not null,
+pay_method varchar(30) not null,
+primary key(order_ID, user_ID),
+constraint FK_User foreign key(user_ID)
+references User(user_ID)
+on update cascade
+on delete cascade
+);
+
+create table if not exists concert(
+concert_id int auto_increment,
+tour_name varchar(100),
+loc_ID int,
+album_name varchar(100),
+artist_ID int,
+concert_name varchar(100) not null,
+date date not null,
+primary key(concert_id, tour_name, loc_ID, album_name, artist_ID),
+constraint FK_TourC foreign key(tour_name)
+references Tour(tour_name) on update cascade on delete cascade,
+constraint FK_LocC foreign key(loc_ID)
+references Location(loc_ID) on update cascade on delete cascade,
+constraint FK_AlbumC foreign key(album_name)
+references Album(album_name) on update cascade on delete cascade,
+constraint FK_ArtistC foreign key(artist_ID)
+references Artist(artist_ID) on update cascade on delete cascade
+);
+
+create table if not exists ticket(
+ticket_ID int auto_increment,
+concert_ID int,
+type varchar(100) not null default("Regular"),
+price int not null,
+primary key(ticket_ID, concert_ID),
+constraint FK_concertID foreign key(concert_ID)
+references Concert(concert_ID) on update cascade on delete cascade
+);
+
+
+create table if not exists purchase(
+order_ID int,
+ticket_ID int,
+primary key(order_ID, ticket_ID),
+constraint FK_ticketID foreign key(ticket_ID)
+references Ticket(ticket_ID) on update cascade on delete cascade,
+constraint FK_orderID foreign key(order_ID)
+references `order`(order_ID) on update cascade on delete cascade
+);
 
 mysqldump -c -u root -p --databases eventaja > EventAja.sql
