@@ -142,7 +142,6 @@ constraint FK_concertID foreign key(concert_ID)
 references Concert(concert_ID) on update cascade on delete cascade
 );
 
-
 create table if not exists purchase(
 order_ID int,
 ticket_ID int,
@@ -151,6 +150,22 @@ constraint FK_ticketID foreign key(ticket_ID)
 references Ticket(ticket_ID) on update cascade on delete cascade,
 constraint FK_orderID foreign key(order_ID)
 references `order`(order_ID) on update cascade on delete cascade
+);
+
+create table if not exists official(
+merch_id int,
+kode_official varchar(20) not null,
+primary key(merch_id),
+constraint FK_merchIDO foreign key(merch_ID) 
+references Merchandise(merch_ID) on update cascade on delete cascade
+);
+
+create table if not exists unofficial(
+merch_id int,
+supplier varchar(20) not null,
+primary key(merch_id),
+constraint FK_merchIDU foreign key(merch_ID)
+references Merchandise(merch_ID) on update cascade on delete cascade
 );
 
 create table if not exists Merchandise(
