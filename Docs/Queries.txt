@@ -179,4 +179,26 @@ constraint FK_concertIDmerch foreign key (concert_ID)
 references Concert(concert_ID) on update cascade on delete cascade
 );
 
+create function eventaja.getAge()
+returns real
+for each row
+return(datediff(curdate(), (select birth_date from `order` o, user where o.user_ID = user.user_ID))/365);
+
+alter table `order`
+add constraint check_AGE
+check(17 <= getAge(new.user_ID));
+
+(select artist_name, album_name, no_track, song_name, duration, released_year
+from artist a natural inner join album al natural inner join song s
+where song_amount > 1
+order by duration desc)
+union
+(select artist_name, album_name, no_track, song_name, duration, released_year
+from artist a natural inner join album al natural inner join song s
+where artist_name in 
+(select artist_name from artist a natural inner join album al
+where song_amount > 1))
+order by duration desc
+;
+
 mysqldump -c -u root -p --databases eventaja > EventAja.sql
