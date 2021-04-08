@@ -158,8 +158,7 @@ CREATE TABLE `merchandise` (
   PRIMARY KEY (`merch_ID`),
   KEY `FK_concertIDmerch` (`concert_ID`),
   CONSTRAINT `FK_concertIDmerch` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `CONSTRAINT_1` CHECK (`type` = 'official' or `type` = 'unofficial'),
-  CONSTRAINT `CONSTRAINT_2` CHECK (`type` = 'official' or `type` = 'unofficial')
+  CONSTRAINT `CONSTRAINT_1` CHECK (`type` = 'official' or `type` = 'unofficial')
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -414,4 +413,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-08 14:21:22
+-- Dump completed on 2021-04-08 14:25:52
