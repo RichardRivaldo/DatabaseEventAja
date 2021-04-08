@@ -102,7 +102,7 @@ CREATE TABLE `concert` (
   CONSTRAINT `FK_ArtistC` FOREIGN KEY (`artist_ID`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_LocC` FOREIGN KEY (`loc_ID`) REFERENCES `location` (`loc_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TourC` FOREIGN KEY (`tour_name`) REFERENCES `tour` (`tour_name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
-INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-02-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14');
+INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-02-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14'),(6,'Basis',2,'Basdat Serenade',1,'Basisten','2021-03-21'),(7,'Basis',5,'Basdat Serenade',1,'Basisten','2021-03-25'),(8,'Tulips',4,'Love of Basdat',5,'My Love','2021-02-16');
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +211,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_ID`),
   KEY `FK_User` (`user_ID`),
   CONSTRAINT `FK_User` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +220,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` (`order_ID`, `user_ID`, `total_price`, `pay_method`) VALUES (1,1,100000,'Gopay'),(2,2,100000,'M-Banking'),(3,3,200000,'DANA'),(4,4,300000,'ATM'),(5,5,200000,'DANA');
+INSERT INTO `order` (`order_ID`, `user_ID`, `total_price`, `pay_method`) VALUES (1,1,100000,'Gopay'),(2,2,100000,'M-Banking'),(3,3,200000,'DANA'),(4,4,300000,'ATM'),(5,5,200000,'DANA'),(6,2,1100000,'Gopay'),(7,1,400000,'M-Banking'),(8,3,700000,'DANA'),(9,5,700000,'ATM'),(10,2,700000,'M-Banking');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,7 +247,7 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
-INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
+INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,13),(7,9),(8,12),(9,17),(10,18);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -314,7 +314,7 @@ CREATE TABLE `ticket` (
   PRIMARY KEY (`ticket_ID`),
   KEY `FK_concertID` (`concert_ID`),
   CONSTRAINT `FK_concertID` FOREIGN KEY (`concert_ID`) REFERENCES `concert` (`concert_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,7 +323,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` (`ticket_ID`, `concert_ID`, `type`, `price`) VALUES (1,1,'Silver',100000),(2,2,'Silver',100000),(3,3,'Gold',200000),(4,4,'Premium',300000),(5,5,'Gold',200000);
+INSERT INTO `ticket` (`ticket_ID`, `concert_ID`, `type`, `price`) VALUES (1,1,'Silver',100000),(2,2,'Silver',100000),(3,3,'Gold',200000),(4,4,'Premium',300000),(5,5,'Gold',200000),(6,6,'Silver',250000),(7,6,'Gold',300000),(8,6,'VIP',400000),(9,7,'Silver',400000),(10,7,'Gold',650000),(11,7,'VIP',900000),(12,8,'Festival',700000),(13,8,'Premium',1100000),(14,8,'Premium',1100000),(15,8,'Premium',1100000),(16,8,'Premium',1100000),(17,8,'Festival',700000),(18,8,'Festival',700000),(19,8,'Festival',700000);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -412,4 +412,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-08 11:10:55
+-- Dump completed on 2021-04-08 13:18:41
