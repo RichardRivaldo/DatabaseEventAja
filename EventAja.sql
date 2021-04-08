@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for osx10.15 (x86_64)
+-- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win64 (AMD64)
 --
--- Host: localhost    Database: EventAja
+-- Host: localhost    Database: eventaja
 -- ------------------------------------------------------
--- Server version	10.5.9-MariaDB
+-- Server version	10.5.8-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `EventAja`
+-- Current Database: `eventaja`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `EventAja` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `EventAja`;
+USE `eventaja`;
 
 --
 -- Table structure for table `album`
@@ -47,7 +47,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES ('Basdat Serenade',2,1,2018),('Cry of Database',3,1,2015),('Databases of Despairs',1,1,2013),('Living in The Database',5,2,2021),('Love of Basdat',5,1,2020);
+INSERT INTO `album` (`album_name`, `artist_id`, `song_amount`, `released_year`) VALUES ('Basdat Serenade',2,1,2018),('Cry of Database',3,1,2015),('Databases of Despairs',1,1,2013),('Living in The Database',5,2,2021),('Love of Basdat',5,1,2020);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +74,7 @@ CREATE TABLE `artist` (
 
 LOCK TABLES `artist` WRITE;
 /*!40000 ALTER TABLE `artist` DISABLE KEYS */;
-INSERT INTO `artist` VALUES (1,'Alan','Male','Kanada','Electronic'),(2,'Efendi','Male','Indonesia','Rock'),(3,'Jeremy','Male','England','Jazz'),(4,'Niki','Female','Indonesia','R&B'),(5,'Isyana','Female','Indonesia','Pop');
+INSERT INTO `artist` (`artist_ID`, `artist_name`, `gender`, `country`, `genre`) VALUES (1,'Alan','Male','Kanada','Electronic'),(2,'Efendi','Male','Indonesia','Rock'),(3,'Jeremy','Male','England','Jazz'),(4,'Niki','Female','Indonesia','R&B'),(5,'Isyana','Female','Indonesia','Pop');
 /*!40000 ALTER TABLE `artist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
-INSERT INTO `concert` VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-05-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14');
+INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-02-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14');
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
+INSERT INTO `location` (`loc_ID`, `loc_name`, `address`, `capacity`, `type`) VALUES (1,'Aula Barat ITB','Jalan Ganesha ITB',300,'Aula'),(2,'Lapangan Basket','Jalan Ganesha ITB',350,'Lapangan'),(3,'West Avenue','Wall Street Manhattan',175,'Avenue'),(4,'Red Rocks','Alameda Street Morison',1202,'Amphiteatre'),(5,'Amphiteatre ITB','Jalan Ganesha ITB',200,'Amphiteatre');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +167,7 @@ CREATE TABLE `merchandise` (
 
 LOCK TABLES `merchandise` WRITE;
 /*!40000 ALTER TABLE `merchandise` DISABLE KEYS */;
-INSERT INTO `merchandise` VALUES (1,1,'Stickers','unofficial',10000),(2,1,'Patches','official',450000),(3,2,'Guitar picks','official',25000),(4,3,'Keychains','official',35000),(5,4,'Tote Bags','unofficial',55000),(6,5,'Patches','unofficial',225000),(7,2,'Beanies Hat','official',150000),(8,3,'Guitar picks','unofficial',20000),(9,4,'Posters','official',35000),(10,5,'Posters','official',55000),(11,5,'Tote Bags','unofficial',45000);
+INSERT INTO `merchandise` (`merch_ID`, `concert_ID`, `merch_name`, `type`, `price`) VALUES (1,1,'Stickers','unofficial',10000),(2,1,'Patches','official',450000),(3,2,'Guitar picks','official',25000),(4,3,'Keychains','official',35000),(5,4,'Tote Bags','unofficial',55000),(6,5,'Patches','unofficial',225000),(7,2,'Beanies Hat','official',150000),(8,3,'Guitar picks','unofficial',20000),(9,4,'Posters','official',35000),(10,5,'Posters','official',55000),(11,5,'Tote Bags','unofficial',45000);
 /*!40000 ALTER TABLE `merchandise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +182,7 @@ CREATE TABLE `official` (
   `merch_id` int(11) NOT NULL,
   `kode_official` varchar(20) NOT NULL,
   PRIMARY KEY (`merch_id`),
-  CONSTRAINT `FK_merchIDO` FOREIGN KEY (`merch_id`) REFERENCES `Merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_merchIDO` FOREIGN KEY (`merch_id`) REFERENCES `merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,7 +192,7 @@ CREATE TABLE `official` (
 
 LOCK TABLES `official` WRITE;
 /*!40000 ALTER TABLE `official` DISABLE KEYS */;
-INSERT INTO `official` VALUES (2,'A01'),(3,'B01'),(4,'C01'),(7,'B02'),(9,'D01'),(10,'E01');
+INSERT INTO `official` (`merch_id`, `kode_official`) VALUES (2,'A01'),(3,'B01'),(4,'C01'),(7,'B02'),(9,'D01'),(10,'E01');
 /*!40000 ALTER TABLE `official` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,7 +246,7 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
-INSERT INTO `purchase` VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
+INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1,1),(2,2),(3,3),(4,4),(5,5);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `song` (
 
 LOCK TABLES `song` WRITE;
 /*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` VALUES ('Crying with Basdat','Basdat Serenade',1,230),('DATABASE DATABASE!','Living in The Database',1,237),('I Love Basdat','Love of Basdat',1,212),('JUST LIVING IN THE DATABASE!','Living in The Database',2,246),('Lullaby of Database','Cry of Database',1,224),('The Reason of Database','Databases of Despairs',1,286);
+INSERT INTO `song` (`song_name`, `album_name`, `no_track`, `duration`) VALUES ('Crying with Basdat','Basdat Serenade',1,230),('DATABASE DATABASE!','Living in The Database',1,237),('I Love Basdat','Love of Basdat',1,212),('JUST LIVING IN THE DATABASE!','Living in The Database',2,246),('Lullaby of Database','Cry of Database',1,224),('The Reason of Database','Databases of Despairs',1,286);
 /*!40000 ALTER TABLE `song` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -322,7 +322,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (1,1,'Silver',100000),(2,2,'Silver',100000),(3,3,'Gold',200000),(4,4,'Premium',300000),(5,5,'Gold',200000);
+INSERT INTO `ticket` (`ticket_ID`, `concert_ID`, `type`, `price`) VALUES (1,1,'Silver',100000),(2,2,'Silver',100000),(3,3,'Gold',200000),(4,4,'Premium',300000),(5,5,'Gold',200000);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +347,7 @@ CREATE TABLE `tour` (
 
 LOCK TABLES `tour` WRITE;
 /*!40000 ALTER TABLE `tour` DISABLE KEYS */;
-INSERT INTO `tour` VALUES ('Basis','2021-05-16','2021-05-17'),('Lilacs','2021-03-13','2021-03-17'),('Roses','2021-01-01','2021-02-01'),('Tulips','2021-07-02','2021-07-10'),('Violets','2020-09-22','2021-02-14');
+INSERT INTO `tour` (`tour_name`, `start_date`, `finish_date`) VALUES ('Basis','2021-05-16','2021-05-17'),('Lilacs','2021-03-13','2021-03-17'),('Roses','2021-01-01','2021-02-01'),('Tulips','2021-07-02','2021-07-10'),('Violets','2020-09-22','2021-02-14');
 /*!40000 ALTER TABLE `tour` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +362,7 @@ CREATE TABLE `unofficial` (
   `merch_id` int(11) NOT NULL,
   `supplier` varchar(20) NOT NULL,
   PRIMARY KEY (`merch_id`),
-  CONSTRAINT `FK_merchIDU` FOREIGN KEY (`merch_id`) REFERENCES `Merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_merchIDU` FOREIGN KEY (`merch_id`) REFERENCES `merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -372,7 +372,7 @@ CREATE TABLE `unofficial` (
 
 LOCK TABLES `unofficial` WRITE;
 /*!40000 ALTER TABLE `unofficial` DISABLE KEYS */;
-INSERT INTO `unofficial` VALUES (1,'Hanata'),(5,'TotalGifts'),(6,'Oblivion Merch'),(8,'Hanata'),(11,'Xtreme Merch');
+INSERT INTO `unofficial` (`merch_id`, `supplier`) VALUES (1,'Hanata'),(5,'TotalGifts'),(6,'Oblivion Merch'),(8,'Hanata'),(11,'Xtreme Merch');
 /*!40000 ALTER TABLE `unofficial` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,7 +398,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Fabi','Anandi','2001-01-22'),(2,'Eja','Morteza','2000-11-09'),(3,'Nadim','Amizah','2005-06-29'),(4,'Kiya','Utama','2001-09-10'),(5,'Rafli','Ananda','2002-05-12');
+INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`) VALUES (1,'Fabi','Anandi','2001-01-22'),(2,'Eja','Morteza','2000-11-09'),(3,'Nadim','Amizah','2005-06-29'),(4,'Kiya','Utama','2001-09-10'),(5,'Rafli','Ananda','2002-05-12');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -411,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-08  1:59:50
+-- Dump completed on 2021-04-08  8:56:56
