@@ -1,8 +1,8 @@
--- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for osx10.15 (x86_64)
 --
--- Host: localhost    Database: eventaja
+-- Host: localhost    Database: EventAja
 -- ------------------------------------------------------
--- Server version	10.5.8-MariaDB
+-- Server version	10.5.9-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `eventaja`
+-- Current Database: `EventAja`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `EventAja` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `eventaja`;
+USE `EventAja`;
 
 --
 -- Table structure for table `album`
@@ -211,7 +211,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_ID`),
   KEY `FK_User` (`user_ID`),
   CONSTRAINT `FK_User` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,6 +220,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` (`order_ID`, `user_ID`, `total_price`, `pay_method`) VALUES (1,1,100000,'Gopay'),(2,2,100000,'M-Banking'),(3,3,200000,'DANA'),(4,4,300000,'ATM'),(5,5,200000,'DANA');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,4 +412,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-08  8:56:56
+-- Dump completed on 2021-04-08 11:10:55
