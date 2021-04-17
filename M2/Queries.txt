@@ -201,4 +201,24 @@ where song_amount > 1))
 order by duration desc
 ;
 
+create table if not exists merch_purchase(
+user_ID int not null,
+purchase_time timestamp not null,
+merch_ID int not null,
+amount int not null default(1),
+check(amount > 0),
+primary key(user_ID, purchase_time),
+constraint FK_merchpurch foreign key(merch_ID)
+references Merchandise(merch_ID) on update cascade on delete cascade,
+constraint FK_usermerch foreign key(user_ID)
+references user(user_ID) on update cascade on delete cascade)
+;
+
+// Tambah atribut user
+alter table user
+add merch_purchased int not null default(0),
+add ticket_purchased int not null default(0);
+
+Business Rule
+
 mysqldump -c -u root -p --databases eventaja > EventAja.sql
