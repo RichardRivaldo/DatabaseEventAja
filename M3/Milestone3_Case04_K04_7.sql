@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for osx10.15 (x86_64)
+-- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win64 (AMD64)
 --
--- Host: localhost    Database: EventAja
+-- Host: localhost    Database: eventaja
 -- ------------------------------------------------------
--- Server version	10.5.9-MariaDB
+-- Server version	10.5.8-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `EventAja`
+-- Current Database: `eventaja`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `EventAja` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `EventAja`;
+USE `eventaja`;
 
 --
 -- Table structure for table `album`
@@ -150,14 +150,13 @@ DROP TABLE IF EXISTS `merch_purchase`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `merch_purchase` (
-  `user_ID` int(11) NOT NULL,
-  `purchase_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `order_ID` int(11) NOT NULL,
   `merch_ID` int(11) NOT NULL,
   `amount` int(11) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`user_ID`,`purchase_time`),
+  PRIMARY KEY (`order_ID`,`merch_ID`),
   KEY `FK_merchpurch` (`merch_ID`),
   CONSTRAINT `FK_merchpurch` FOREIGN KEY (`merch_ID`) REFERENCES `merchandise` (`merch_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_usermerch` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ordermerch` FOREIGN KEY (`order_ID`) REFERENCES `order` (`order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `CONSTRAINT_1` CHECK (`amount` > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -168,7 +167,7 @@ CREATE TABLE `merch_purchase` (
 
 LOCK TABLES `merch_purchase` WRITE;
 /*!40000 ALTER TABLE `merch_purchase` DISABLE KEYS */;
-INSERT INTO `merch_purchase` (`user_ID`, `purchase_time`, `merch_ID`, `amount`) VALUES (1,'2021-04-17 11:05:09',2,2),(2,'2021-04-17 11:05:09',1,6),(4,'2021-04-17 11:05:09',12,10),(5,'2021-04-17 11:05:09',2,5);
+INSERT INTO `merch_purchase` (`order_ID`, `merch_ID`, `amount`) VALUES (1,2,2),(2,1,6),(4,12,10),(5,2,5);
 /*!40000 ALTER TABLE `merch_purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -183,10 +182,9 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger incMerchUser after insert on merch_purchase
 for each row
 update user
-set user.merch_purchased = (select merch_purchased from user where user_ID in
-(select user.user_ID from user where 
-user.user_ID = new.user_ID)) + new.amount
-where new.user_ID = user.user_ID */;;
+set user.merch_purchased = (select merch_purchased + new.amount from user where user_ID in
+(select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID))
+where user_ID in (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID) */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -487,4 +485,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-19 13:54:37
+-- Dump completed on 2021-04-19 14:56:37

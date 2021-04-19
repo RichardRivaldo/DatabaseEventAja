@@ -202,17 +202,30 @@ order by duration desc
 ;
 
 create table if not exists merch_purchase(
-user_ID int not null,
-purchase_time timestamp not null,
+order_ID int not null, 
 merch_ID int not null,
 amount int not null default(1),
 check(amount > 0),
-primary key(user_ID, purchase_time),
+primary key(order_ID, merch_ID),
 constraint FK_merchpurch foreign key(merch_ID)
 references Merchandise(merch_ID) on update cascade on delete cascade,
-constraint FK_usermerch foreign key(user_ID)
-references user(user_ID) on update cascade on delete cascade)
+constraint FK_ordermerch foreign key(order_ID)
+references `order`(order_ID) on update cascade on delete cascade)
 ;
+
+create trigger incMerchUser after insert on merch_purchase
+for each row
+update user
+set user.merch_purchased = (select merch_purchased + new.amount from user where user_ID in
+(select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID))
+where user_ID in (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID);
+
+insert into merch_purchase(order_ID, merch_ID, amount)
+values(1, 2, 2),
+(5, 2, 5),
+(2, 1, 6),
+(4, 12, 10);
+
 
 // Tambah atribut user
 alter table user
@@ -221,4 +234,4 @@ add ticket_purchased int not null default(0);
 
 Business Rule
 
-mysqldump -c -u root -p --databases eventaja > EventAja.sql
+mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_K04_7.sql
