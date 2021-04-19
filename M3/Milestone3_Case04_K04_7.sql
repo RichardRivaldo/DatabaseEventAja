@@ -1,8 +1,8 @@
--- MariaDB dump 10.18  Distrib 10.5.8-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.5.9-MariaDB, for osx10.15 (x86_64)
 --
--- Host: localhost    Database: eventaja
+-- Host: localhost    Database: EventAja
 -- ------------------------------------------------------
--- Server version	10.5.8-MariaDB
+-- Server version	10.5.9-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `eventaja`
+-- Current Database: `EventAja`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `eventaja` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `EventAja` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `eventaja`;
+USE `EventAja`;
 
 --
 -- Table structure for table `album`
@@ -286,6 +286,7 @@ DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE `purchase` (
   `order_ID` int(11) NOT NULL,
   `ticket_ID` int(11) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`order_ID`,`ticket_ID`),
   KEY `FK_ticketID` (`ticket_ID`),
   CONSTRAINT `FK_orderID` FOREIGN KEY (`order_ID`) REFERENCES `order` (`order_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -299,9 +300,29 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
-INSERT INTO `purchase` (`order_ID`, `ticket_ID`) VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,13),(7,9),(8,12),(9,17),(10,18);
+INSERT INTO `purchase` (`order_ID`, `ticket_ID`, `amount`) VALUES (1,1,2),(2,2,1),(3,3,4),(4,4,2),(5,5,1);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`planties`@`localhost`*/ /*!50003 trigger incTicketUser after insert on purchase
+for each row
+update user
+set user.ticket_purchased = (select ticket_purchased+new.amount from user where user_ID in
+(select user_ID from `order` o,purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID))
+where user_ID in (select user_ID from `order` o,purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `song`
@@ -453,7 +474,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`, `merch_purchased`, `ticket_purchased`) VALUES (1,'Fabi','Anandi','2001-01-22',2,0),(2,'Eja','Morteza','2000-11-09',6,0),(3,'Nadim','Amizah','2005-06-29',0,0),(4,'Kiya','Utama','2001-09-10',10,0),(5,'Rafli','Ananda','2002-05-12',5,0);
+INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`, `merch_purchased`, `ticket_purchased`) VALUES (1,'Fabi','Anandi','2001-01-22',2,2),(2,'Eja','Morteza','2000-11-09',6,1),(3,'Nadim','Amizah','2005-06-29',0,4),(4,'Kiya','Utama','2001-09-10',10,2),(5,'Rafli','Ananda','2002-05-12',5,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -466,4 +487,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-17 18:27:22
+-- Dump completed on 2021-04-19 13:54:37
