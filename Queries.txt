@@ -220,6 +220,29 @@ set user.merch_purchased = (select merch_purchased + new.amount from user where 
 (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID))
 where user_ID in (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID);
 
+create trigger totalOrderPrice_insTicPurc after insert on purchase
+for each row
+update `order`
+set total_price = total_price +
+(
+select sum(Ticket.price * new.amount)
+from Ticket
+where Ticket.ticket_ID = new.ticket_ID
+)
+where new.order_ID = order_ID;
+
+create trigger totalOrderPrice_insMercPurc after insert on merch_purchase
+for each row
+update `order`
+set total_price = total_price +
+(
+select sum(merchandise.price * new.amount)
+from merchandise
+where merchandise.merch_ID = new.merch_ID
+)
+where new.order_ID = order_ID;
+
+
 insert into merch_purchase(order_ID, merch_ID, amount)
 values(1, 2, 2),
 (5, 2, 5),

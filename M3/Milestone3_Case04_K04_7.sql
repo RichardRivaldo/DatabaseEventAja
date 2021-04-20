@@ -167,7 +167,7 @@ CREATE TABLE `merch_purchase` (
 
 LOCK TABLES `merch_purchase` WRITE;
 /*!40000 ALTER TABLE `merch_purchase` DISABLE KEYS */;
-INSERT INTO `merch_purchase` (`order_ID`, `merch_ID`, `amount`) VALUES (1,2,2),(2,1,6),(4,12,10),(5,2,5);
+INSERT INTO `merch_purchase` (`order_ID`, `merch_ID`, `amount`) VALUES (1,2,2),(2,1,6),(4,12,10),(5,2,5),(11,2,2);
 /*!40000 ALTER TABLE `merch_purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -185,6 +185,30 @@ update user
 set user.merch_purchased = (select merch_purchased + new.amount from user where user_ID in
 (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID))
 where user_ID in (select user_ID from `order` o, merch_purchase p where o.order_ID = p.order_ID and p.order_ID = new.order_ID) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger totalOrderPrice_insMercPurc after insert on merch_purchase
+for each row
+update `order`
+set total_price = total_price +
+(
+select sum(merchandise.price * new.amount)
+from merchandise
+where merchandise.merch_ID = new.merch_ID
+)
+where new.order_ID = order_ID */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -261,7 +285,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_ID`),
   KEY `FK_User` (`user_ID`),
   CONSTRAINT `FK_User` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +294,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` (`order_ID`, `user_ID`, `total_price`, `pay_method`) VALUES (1,1,100000,'Gopay'),(2,2,100000,'M-Banking'),(3,3,200000,'DANA'),(4,4,300000,'ATM'),(5,5,200000,'DANA'),(6,2,1100000,'Gopay'),(7,1,400000,'M-Banking'),(8,3,700000,'DANA'),(9,5,700000,'ATM'),(10,2,700000,'M-Banking');
+INSERT INTO `order` (`order_ID`, `user_ID`, `total_price`, `pay_method`) VALUES (1,1,100000,'Gopay'),(2,2,100000,'M-Banking'),(3,3,200000,'DANA'),(4,4,300000,'ATM'),(5,5,200000,'DANA'),(6,2,1100000,'Gopay'),(7,1,400000,'M-Banking'),(8,3,700000,'DANA'),(9,5,700000,'ATM'),(10,2,700000,'M-Banking'),(11,2,1650000,'Gopay');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,19 +322,43 @@ CREATE TABLE `purchase` (
 
 LOCK TABLES `purchase` WRITE;
 /*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
-INSERT INTO `purchase` (`order_ID`, `ticket_ID`, `amount`) VALUES (1,1,2),(2,2,1),(3,3,4),(4,4,2),(5,5,1);
+INSERT INTO `purchase` (`order_ID`, `ticket_ID`, `amount`) VALUES (1,1,2),(2,2,1),(3,3,4),(4,4,2),(5,5,1),(11,6,3);
 /*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`planties`@`localhost`*/ /*!50003 trigger incTicketUser after insert on purchase
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger totalOrderPrice_insTicPurc after insert on purchase
+for each row
+update `order`
+set total_price = total_price +
+(
+select sum(Ticket.price * new.amount)
+from Ticket
+where Ticket.ticket_ID = new.ticket_ID
+)
+where new.order_ID = order_ID */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger incTicketUser after insert on purchase
 for each row
 update user
 set user.ticket_purchased = (select ticket_purchased+new.amount from user where user_ID in
@@ -472,7 +520,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`, `merch_purchased`, `ticket_purchased`) VALUES (1,'Fabi','Anandi','2001-01-22',2,2),(2,'Eja','Morteza','2000-11-09',6,1),(3,'Nadim','Amizah','2005-06-29',0,4),(4,'Kiya','Utama','2001-09-10',10,2),(5,'Rafli','Ananda','2002-05-12',5,1);
+INSERT INTO `user` (`user_ID`, `first_name`, `last_name`, `birth_date`, `merch_purchased`, `ticket_purchased`) VALUES (1,'Fabi','Anandi','2001-01-22',2,2),(2,'Eja','Morteza','2000-11-09',8,4),(3,'Nadim','Amizah','2005-06-29',0,4),(4,'Kiya','Utama','2001-09-10',10,2),(5,'Rafli','Ananda','2002-05-12',5,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -485,4 +533,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-19 14:56:37
+-- Dump completed on 2021-04-20 10:12:32
