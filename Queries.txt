@@ -294,4 +294,4 @@ insert into concert
 values("Basis", 2, "Living in The Database", 2, "Invalid Concert", '2005-06-29', 2);
 
 
-mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_K04_7.sql
+mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_BusinessRule_K04_7.sql
