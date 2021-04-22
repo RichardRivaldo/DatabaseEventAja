@@ -93,6 +93,7 @@ CREATE TABLE `concert` (
   `artist_ID` int(11) NOT NULL,
   `concert_name` varchar(100) NOT NULL,
   `date` date NOT NULL,
+  `song_performed` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`concert_id`),
   KEY `FK_TourC` (`tour_name`),
   KEY `FK_LocC` (`loc_ID`),
@@ -102,7 +103,7 @@ CREATE TABLE `concert` (
   CONSTRAINT `FK_ArtistC` FOREIGN KEY (`artist_ID`) REFERENCES `artist` (`artist_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_LocC` FOREIGN KEY (`loc_ID`) REFERENCES `location` (`loc_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TourC` FOREIGN KEY (`tour_name`) REFERENCES `tour` (`tour_name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,9 +112,55 @@ CREATE TABLE `concert` (
 
 LOCK TABLES `concert` WRITE;
 /*!40000 ALTER TABLE `concert` DISABLE KEYS */;
-INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`) VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17'),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-02-17'),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01'),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10'),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14'),(6,'Basis',2,'Basdat Serenade',1,'Basisten','2021-03-21'),(7,'Basis',5,'Basdat Serenade',1,'Basisten','2021-03-25'),(8,'Tulips',4,'Love of Basdat',5,'My Love','2021-02-16');
+INSERT INTO `concert` (`concert_id`, `tour_name`, `loc_ID`, `album_name`, `artist_ID`, `concert_name`, `date`, `song_performed`) VALUES (1,'Basis',1,'Basdat Serenade',1,'Basisten','2021-03-17',0),(2,'Lilacs',2,'Cry of Database',2,'Lilacsin','2021-02-17',0),(3,'Roses',3,'Databases of Despairs',3,'Databases My Fav','2021-02-01',0),(4,'Tulips',4,'Living in The Database',4,'Livingers','2021-07-10',0),(5,'Violets',5,'Love of Basdat',5,'My Love','2021-02-14',1),(6,'Basis',2,'Basdat Serenade',1,'Basisten','2021-03-21',0),(7,'Basis',5,'Basdat Serenade',1,'Basisten','2021-03-25',0),(8,'Tulips',4,'Love of Basdat',5,'My Love','2021-02-16',1),(10,'Basis',2,'Basdat Serenade',2,'Invalid Concert','2005-06-29',1);
 /*!40000 ALTER TABLE `concert` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger check_ins_perform before insert on concert
+for each row
+begin
+if((select song_amount from album where album.album_name = new.album_name) < new.song_performed)
+then
+signal sqlstate '45000'
+set message_text = 'Invalid amount (bigger than the number of song in the album) of song inserted into the concert!';
+end if;
+end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = cp850 */ ;
+/*!50003 SET character_set_results = cp850 */ ;
+/*!50003 SET collation_connection  = cp850_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger check_upd_perform before update on concert
+for each row
+begin
+if((select song_amount from album where album.album_name = new.album_name) < new.song_performed)
+then
+signal sqlstate '45000'
+set message_text = 'Invalid amount (bigger than the number of song in the album) of song updated into the concert!';
+end if;
+end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `location`
@@ -533,4 +580,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 10:12:32
+-- Dump completed on 2021-04-22 19:43:03

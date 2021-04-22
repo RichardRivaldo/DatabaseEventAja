@@ -257,4 +257,41 @@ add ticket_purchased int not null default(0);
 
 Business Rule
 
+// Concert
+alter table concert
+add song_performed int not null default(0);
+
+delimiter -
+create trigger check_upd_perform before update on concert
+for each row
+begin
+if((select song_amount from album where album.album_name = new.album_name) < new.song_performed)
+then
+signal sqlstate '45000'
+set message_text = 'Invalid amount (bigger than the number of song in the album) of song updated into the concert!';
+end if;
+end; -
+delimiter ;
+
+delimiter -
+create trigger check_ins_perform before insert on concert
+for each row
+begin
+if((select song_amount from album where album.album_name = new.album_name) < new.song_performed)
+then
+signal sqlstate '45000'
+set message_text = 'Invalid amount (bigger than the number of song in the album) of song inserted into the concert!';
+end if;
+end; -
+delimiter ;
+
+update concert
+set song_performed = 1
+where album_name = "Love of Basdat";
+
+insert into concert
+(tour_name, loc_ID, album_name, artist_ID, concert_name, date, song_performed)
+values("Basis", 2, "Basdat Serenade", 2, "Invalid Concert", '2005-06-29', 1);
+
+
 mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_K04_7.sql
