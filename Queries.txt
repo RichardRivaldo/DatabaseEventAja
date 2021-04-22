@@ -291,7 +291,7 @@ where album_name = "Love of Basdat";
 
 insert into concert
 (tour_name, loc_ID, album_name, artist_ID, concert_name, date, song_performed)
-values("Basis", 2, "Basdat Serenade", 2, "Invalid Concert", '2005-06-29', 1);
+values("Basis", 2, "Living in The Database", 2, "Invalid Concert", '2005-06-29', 2);
 
 
 mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_K04_7.sql
