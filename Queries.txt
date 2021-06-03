@@ -295,3 +295,25 @@ values("Basis", 2, "Living in The Database", 2, "Invalid Concert", '2005-06-29',
 
 
 mysqldump -c -u root -p --databases eventaja > Milestone3_Case04_BusinessRule_K04_7.sql
+
+
+
+select s.no_track, s.song_name, a.artist_name from song s, artist a, concert c, album ab
+where s.album_name = ab.album_name and ab.artist_id = a.artist_id and c.concert_id in
+(select concert_id from concert c inner join ticket t on c.concert_id = t.concert_id inner join purchase p
+on p.ticket_id = t.ticket_id 
+having sum(amount) = max(sum(amount)) 
+group by concert_id);
+
+
+select * from merchandise
+where price > (select avg(price) from merchandise);
+
+select avg(price) from merchandise;
+
+create or replace index merch_index using btree
+on merchandise(price);
+
+drop index merch_index on merchandise;
+
+mysqldump -c -u root -p --databases eventaja > Milestone4_Case04_IndexTuning_K04_07.sql
