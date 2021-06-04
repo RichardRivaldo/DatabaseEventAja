@@ -317,3 +317,56 @@ on merchandise(price);
 drop index merch_index on merchandise;
 
 mysqldump -c -u root -p --databases eventaja > Milestone4_Case04_IndexTuning_K04_07.sql
+
+// SCHEMA TUNING
+
+alter table concert
+add ticket_sold int(4) not null default 0;
+
+alter table concert
+add artist_name varchar(100) not null after artist_id;
+
+update concert
+inner join (select concert.concert_id, artist.artist_name, ifnull(sum(purchase.amount),0) as ticket_sold
+from concert
+left join ticket on concert.concert_id = ticket.concert_id
+left join purchase on purchase.ticket_id = ticket.ticket_id
+inner join artist on artist.artist_id = concert.artist_id
+group by concert.concert_id) sq on concert.concert_id = sq.concert_id
+set concert.artist_name = sq.artist_name, concert.ticket_sold = sq.ticket_sold;
+
+create trigger concert_add_amount_total_ticket after insert on purchase
+for each row
+update concert
+set concert.ticket_sold = concert.ticket_sold + new.amount
+where concert.concert_id = 
+(select concert.concert_id 
+from concert
+inner join ticket on concert.concert_id = ticket.concert_id
+inner join purchase on ticket.ticket_id = purchase.ticket_id
+where ticket.ticket_id = new.ticket_id and purchase.order_id = new.order_id);
+
+DELIMITER $$
+create trigger concert_artist_name before insert on concert
+for each row 
+begin
+if (exists (
+select * 
+from artist 
+where artist.artist_id = new.artist_id and artist.artist_name != new.artist_name))
+then
+SIGNAL sqlstate '45000' set message_text = "Nama artist tidak sesuai dengan id-nya";
+end if;
+end;
+$$
+
+create table popular_song_list as (
+select no_track, song_name, artist_id, artist_name
+from song
+inner join 
+(
+select concert.*
+from concert
+where month(date) = month(current_date()) and ticket_sold >= all 
+(select ticket_sold from concert )
+) sq on sq.album_name = song.album_name);
